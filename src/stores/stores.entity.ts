@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { PaymentStatus } from 'src/types/payment';
 import { Column, Entity, Index } from 'typeorm';
@@ -28,16 +28,16 @@ export class StoreEntity extends CommonEntity {
   address: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsString()
   @IsNotEmpty({ message: '경도를 작성해주세요.' })
   @Column({ type: 'numeric', nullable: false })
-  longitude: number;
+  lon: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsString()
   @IsNotEmpty({ message: '위도를 작성해주세요.' })
   @Column({ type: 'numeric', nullable: false })
-  latitude: number;
+  lat: string;
 
   @ApiProperty()
   @IsEnum(PaymentStatus)
