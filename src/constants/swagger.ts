@@ -26,4 +26,5 @@ export const responseExampleForStore = {
     totalPage: 'number',
   }),
   detail: responseTemplate(storeResponse),
+  changePaymentStatus: responseTemplate(storeResponse),
 };

@@ -5,6 +5,7 @@ import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
 import { StoreFormDTO } from './dto/store-form.dto';
 import { StoreEntity } from './stores.entity';
 import { EXCEPTION } from 'src/constants/message';
+import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
 
 @Injectable()
 export class StoresService {
@@ -42,5 +43,10 @@ export class StoresService {
     if (!store) throw new NotFoundException(EXCEPTION.NOT_FOUND_STORE);
 
     return store;
+  }
+
+  async changePaymentStatus(id: string, paymentStatusFormDto: PaymentStatusFormDTO) {
+    await this.storeRepository.update(id, paymentStatusFormDto);
+    return this.getStore(id);
   }
 }

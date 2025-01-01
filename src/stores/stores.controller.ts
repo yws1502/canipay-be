@@ -1,8 +1,9 @@
-import { Controller, Get, Query, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Param, Patch } from '@nestjs/common';
 import { ApiQuery, ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { StoresService } from './stores.service';
 import { StoreFormDTO } from './dto/store-form.dto';
 import { responseExampleForStore } from 'src/constants/swagger';
+import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
 
 @ApiTags('Store')
 @Controller('stores')
@@ -37,5 +38,16 @@ export class StoresController {
   @ApiResponse(responseExampleForStore.detail)
   getStore(@Param('id') id: string) {
     return this.storesService.getStore(id);
+  }
+
+  @Patch('/:id')
+  @ApiOperation({
+    summary: '매장 결제 가능 여부 변경',
+    description: 'paymentStatus의 값은 available, unavailable만 가능합니다.',
+  })
+  @ApiParam({ name: 'id', required: true, type: 'string' })
+  @ApiResponse(responseExampleForStore.changePaymentStatus)
+  changePaymentStatus(@Param('id') id: string, @Body() paymentStatusFormDto: PaymentStatusFormDTO) {
+    return this.storesService.changePaymentStatus(id, paymentStatusFormDto);
   }
 }
