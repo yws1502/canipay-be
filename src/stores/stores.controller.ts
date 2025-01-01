@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Post, Body, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Param, Patch, Delete } from '@nestjs/common';
 import { ApiQuery, ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { StoresService } from './stores.service';
 import { StoreFormDTO } from './dto/store-form.dto';
@@ -49,5 +49,15 @@ export class StoresController {
   @ApiResponse(responseExampleForStore.changePaymentStatus)
   changePaymentStatus(@Param('id') id: string, @Body() paymentStatusFormDto: PaymentStatusFormDTO) {
     return this.storesService.changePaymentStatus(id, paymentStatusFormDto);
+  }
+
+  @Delete('/:id')
+  @ApiOperation({
+    summary: '등록된 매장 삭제',
+  })
+  @ApiParam({ name: 'id', required: true, type: 'string' })
+  @ApiResponse(responseExampleForStore.delete)
+  deleteStore(@Param('id') id: string) {
+    return this.storesService.deleteStore(id);
   }
 }

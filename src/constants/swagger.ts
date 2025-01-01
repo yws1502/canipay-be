@@ -6,6 +6,10 @@ const responseTemplate = <T>(data: T) => {
   };
 };
 
+const deleteResponse = {
+  message: '삭제되었습니다.',
+};
+
 const storeResponse = {
   id: 'string',
   name: 'string',
@@ -27,4 +31,5 @@ export const responseExampleForStore = {
   }),
   detail: responseTemplate(storeResponse),
   changePaymentStatus: responseTemplate(storeResponse),
+  delete: responseTemplate(deleteResponse),
 };

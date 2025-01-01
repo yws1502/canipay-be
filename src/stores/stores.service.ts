@@ -49,4 +49,15 @@ export class StoresService {
     await this.storeRepository.update(id, paymentStatusFormDto);
     return this.getStore(id);
   }
+
+  async deleteStore(id: string) {
+    const store = await this.getStore(id);
+    if (!store) throw new NotFoundException(EXCEPTION.NOT_FOUND_STORE);
+
+    await this.storeRepository.softDelete(id);
+
+    return {
+      message: '삭제되었습니다.',
+    };
+  }
 }
