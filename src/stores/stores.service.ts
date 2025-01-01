@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StoreEntity } from './stores.entity';
 import { Repository } from 'typeorm';
+import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
 import { StoreFormDTO } from './dto/store-form.dto';
+import { StoreEntity } from './stores.entity';
 
 @Injectable()
 export class StoresService {
@@ -16,5 +17,22 @@ export class StoresService {
     await this.storeRepository.save(store);
 
     return store;
+  }
+
+  async getStores(take = DEFAULT_TAKE, skip = DEFAULT_SKIP) {
+    console.log(take, skip);
+
+    const [stores, totalCount] = await this.storeRepository
+      .createQueryBuilder('store')
+      .orderBy('store.createdAt')
+      .take(take)
+      .skip(skip)
+      .getManyAndCount();
+
+    return {
+      stores,
+      totalCount,
+      totalPage: Math.ceil(totalCount / take),
+    };
   }
 }

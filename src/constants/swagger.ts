@@ -20,4 +20,9 @@ const storeResponse = {
 
 export const responseExampleForStore = {
   register: responseTemplate(storeResponse),
+  list: responseTemplate({
+    stores: [storeResponse],
+    totalCount: 'number',
+    totalPage: 'number',
+  }),
 };
