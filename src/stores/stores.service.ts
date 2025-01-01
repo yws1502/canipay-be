@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
 import { StoreFormDTO } from './dto/store-form.dto';
 import { StoreEntity } from './stores.entity';
+import { EXCEPTION } from 'src/constants/message';
 
 @Injectable()
 export class StoresService {
@@ -34,5 +35,12 @@ export class StoresService {
       totalCount,
       totalPage: Math.ceil(totalCount / take),
     };
+  }
+
+  async getStore(id: string) {
+    const store = await this.storeRepository.findOneBy({ id });
+    if (!store) throw new NotFoundException(EXCEPTION.NOT_FOUND_STORE);
+
+    return store;
   }
 }

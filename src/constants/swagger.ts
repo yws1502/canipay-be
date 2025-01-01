@@ -25,4 +25,5 @@ export const responseExampleForStore = {
     totalCount: 'number',
     totalPage: 'number',
   }),
+  detail: responseTemplate(storeResponse),
 };
