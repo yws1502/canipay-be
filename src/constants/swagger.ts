@@ -22,6 +22,16 @@ const storeResponse = {
   updatedAt: 'date string',
 };
 
+const proxyStoreResponse = {
+  id: 'string',
+  name: 'string',
+  lat: 'string',
+  lon: 'string',
+  address: 'string',
+  tel: 'string',
+  category: 'string',
+};
+
 export const responseExampleForStore = {
   register: responseTemplate(storeResponse),
   list: responseTemplate({
@@ -32,4 +42,12 @@ export const responseExampleForStore = {
   detail: responseTemplate(storeResponse),
   changePaymentStatus: responseTemplate(storeResponse),
   delete: responseTemplate(deleteResponse),
+};
+
+export const ResponseExampleForProxyStore = {
+  list: responseTemplate({
+    stores: [proxyStoreResponse],
+    totalCount: 'number',
+    totalPage: 'number',
+  }),
 };
