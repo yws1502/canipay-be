@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
+import { Store } from 'src/types/proxy';
 import { ResponseSearchPoiInfo } from 'src/types/tmap';
 import { SearchTypCd } from 'src/types/tmap';
 
@@ -46,20 +47,19 @@ export class ProxyService {
 
     const { searchPoiInfo } = response.data;
 
-    const storeList = searchPoiInfo.pois.poi.map((item) => {
+    const storeList: Store[] = searchPoiInfo.pois.poi.map((item) => {
       return {
         id: item.id,
         name: item.name,
+        address: item.newAddressList.newAddress[0].fullAddressRoad,
+        category: item.lowerBizName,
         lat: item.newAddressList.newAddress[0].centerLat,
         lon: item.newAddressList.newAddress[0].centerLon,
-        address: item.newAddressList.newAddress[0].fullAddressRoad,
-        tel: item.telNo,
-        category: item.lowerBizName,
       };
     });
 
     return {
-      stores: storeList,
+      data: storeList,
       totalCount: searchPoiInfo.totalCount,
       totalPage: Math.ceil(Number(searchPoiInfo.totalCount) / Number(searchPoiInfo.count)),
     };

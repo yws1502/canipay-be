@@ -30,7 +30,7 @@ export class StoresService {
       .getManyAndCount();
 
     return {
-      stores,
+      data: stores,
       totalCount,
       totalPage: Math.ceil(totalCount / take),
     };

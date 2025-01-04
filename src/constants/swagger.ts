@@ -25,17 +25,16 @@ const storeResponse = {
 const proxyStoreResponse = {
   id: 'string',
   name: 'string',
+  address: 'string',
+  category: 'string',
   lat: 'string',
   lon: 'string',
-  address: 'string',
-  tel: 'string',
-  category: 'string',
 };
 
 export const responseExampleForStore = {
   register: responseTemplate(storeResponse),
   list: responseTemplate({
-    stores: [storeResponse],
+    data: [storeResponse],
     totalCount: 'number',
     totalPage: 'number',
   }),
@@ -46,7 +45,7 @@ export const responseExampleForStore = {
 
 export const ResponseExampleForProxyStore = {
   list: responseTemplate({
-    stores: [proxyStoreResponse],
+    data: [proxyStoreResponse],
     totalCount: 'number',
     totalPage: 'number',
   }),
