@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
 import { Store } from 'src/types/proxy';
-import { ResponseSearchPoiInfo } from 'src/types/tmap';
+import { ResponsePoiInfo, ResponseSearchPoiInfo } from 'src/types/tmap';
 import { SearchTypCd } from 'src/types/tmap';
 
 @Injectable()
@@ -63,5 +63,44 @@ export class ProxyService {
       totalCount: searchPoiInfo.totalCount,
       totalPage: Math.ceil(Number(searchPoiInfo.totalCount) / Number(searchPoiInfo.count)),
     };
+  }
+
+  async getStore(id: string) {
+    this.logger.log(
+      `Sending Open API GET request to ${this.configService.get<string>('T_MAP_API_URL')}/${id}`
+    );
+    const response = await firstValueFrom(
+      this.httpService
+        .get<ResponsePoiInfo>(id, {
+          params: {
+            version: '1',
+            findOption: 'key',
+          },
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error);
+            throw 'An error happened!';
+          })
+        )
+    );
+
+    const { poiDetailInfo } = response.data;
+
+    const bldNo =
+      poiDetailInfo.bldNo2 === ''
+        ? poiDetailInfo.bldNo1
+        : `${poiDetailInfo.bldNo1}-${poiDetailInfo.bldNo2}`;
+
+    const store: Store = {
+      id: poiDetailInfo.id,
+      name: poiDetailInfo.name,
+      address: `${poiDetailInfo.bldAddr} ${bldNo}`,
+      category: poiDetailInfo.bizCatName,
+      lat: poiDetailInfo.lat,
+      lon: poiDetailInfo.lon,
+    };
+
+    return store;
   }
 }

@@ -49,4 +49,5 @@ export const ResponseExampleForProxyStore = {
     totalCount: 'number',
     totalPage: 'number',
   }),
+  detail: responseTemplate(proxyStoreResponse),
 };

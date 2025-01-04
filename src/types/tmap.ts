@@ -43,6 +43,8 @@ interface GroupSub {
   subClassNmD: string;
 }
 
+type CoordinateType = 'WGS84GEO' | 'EPSG3857' | 'KATECH';
+
 interface Poi {
   id: string; // POI ID
   pkey: string; // POI 식별자
@@ -102,8 +104,8 @@ export interface RequestSearchPoiInfo {
   searchtypCd?: SearchTypCd; // 결과 정렬 순서 default A, A = 정확도순,  R = 거리순
   centerLon?: number;
   centerLat?: number;
-  reqCoordType?: 'WGS84GEO' | 'EPSG3857' | 'KATECH'; // default WGS84GEO
-  resCoordType?: 'WGS84GEO' | 'EPSG3857' | 'KATECH'; // default WGS84GEO
+  reqCoordType?: CoordinateType; // default WGS84GEO
+  resCoordType?: CoordinateType; // default WGS84GEO
   radius?: number; // 검색 반경 1 ~ 33km, 0인 경우 전국
   page?: number; // default 1
   count?: number; // default 20, 최소 1, 최대 200
@@ -119,6 +121,82 @@ export interface ResponseSearchPoiInfo {
     pois: {
       poi: Poi[];
     };
+  };
+}
+
+export interface RequestPoiInfo {
+  version: '1';
+  findOption?: 'id' | 'key'; // default id
+  resCoordType?: CoordinateType; // default WGS84GEO
+  navSeq?: string;
+  callback?: string;
+}
+
+export interface ResponsePoiInfo {
+  poiDetailInfo: {
+    id: string;
+    viewId: string;
+    dbKind: string;
+    pkey: string;
+    navSeq: string;
+    name: string;
+    bizCatName: string;
+    address: string;
+    firstNo: string;
+    secondNo: string;
+    zipCode: string;
+    tel: string;
+    mlClass: string;
+    lcdName: string;
+    mcdName: string;
+    scdName: string;
+    dcdName: string;
+    bldAddr: string;
+    roadScdName: string;
+    roadName: string;
+    bldNo1: string;
+    bldNo2: string;
+    lat: string;
+    lon: string;
+    frontLat: string;
+    frontLon: string;
+    menu1: string;
+    menu2: string;
+    menu3: string;
+    menu4: string;
+    menu5: string;
+    parkFlag: string;
+    twFlag: string;
+    yaFlag: string;
+    homepageURL: string;
+    routeInfo: string;
+    facility: string;
+    upperLegalCode: string;
+    middleLegalCode: string;
+    lowerLegalCode: string;
+    detailLegalCode: string;
+    upperAdminCode: string;
+    middleAdminCode: string;
+    lowerAdminCode: string;
+    upperCode: string;
+    middleCode: string;
+    lowerCode: string;
+    participant: string;
+    point: string;
+    merchantFlag: string;
+    merchantDispType: string;
+    additionalInfo: string;
+    desc: string;
+    mngName: string;
+    mngId: string;
+    freeYn: string;
+    reservYn: string;
+    useTime: string;
+    payYn: string;
+    fee: string;
+    updateDt: string;
+    totalCnt: string;
+    evChargers: EvCharger[];
   };
 }
 

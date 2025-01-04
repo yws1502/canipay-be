@@ -1,5 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, Query } from '@nestjs/common';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProxyService } from './proxy.service';
 import { SearchTypCd } from 'src/types/tmap';
 import { ResponseExampleForProxyStore } from 'src/constants/swagger';
@@ -10,7 +10,7 @@ import { RequiredValidationPipe } from 'src/common/pipes/required-validation.pip
 export class ProxyController {
   constructor(private readonly proxyService: ProxyService) {}
 
-  @Get('store-list')
+  @Get('stores')
   @ApiOperation({
     summary: '장소 통합 검색 (T Map)',
   })
@@ -39,5 +39,15 @@ export class ProxyController {
     @Query('sort-by') sortBy?: SearchTypCd
   ) {
     return this.proxyService.searchStoreList(search, skip, limit, radius, sortBy);
+  }
+
+  @Get('stores/:id')
+  @ApiOperation({
+    summary: '장소 상세 정보 조회 (T Map)',
+  })
+  @ApiParam({ name: 'id', required: true, type: 'string' })
+  @ApiResponse(ResponseExampleForProxyStore.detail)
+  getStore(@Param('id') id: string) {
+    return this.proxyService.getStore(id);
   }
 }
