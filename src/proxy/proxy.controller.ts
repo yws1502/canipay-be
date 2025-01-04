@@ -3,6 +3,7 @@ import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProxyService } from './proxy.service';
 import { SearchTypCd } from 'src/types/tmap';
 import { ResponseExampleForProxyStore } from 'src/constants/swagger';
+import { RequiredValidationPipe } from 'src/common/pipes/required-validation.pipe';
 
 @ApiTags('Proxy')
 @Controller('proxy')
@@ -31,7 +32,7 @@ export class ProxyController {
   })
   @ApiResponse(ResponseExampleForProxyStore.list)
   searchStoreList(
-    @Query('search') search: string,
+    @Query('search', new RequiredValidationPipe()) search: string,
     @Query('skip') skip?: number | typeof NaN,
     @Query('limit') limit?: number | typeof NaN,
     @Query('radius') radius?: number | typeof NaN,
