@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
-import { PaymentStatus } from 'src/types/payment';
+import { PaymentStatusEnum } from 'src/types/store';
 import { Column, Entity, Index } from 'typeorm';
 
 @Index('storeId', ['id'], { unique: true })
@@ -40,7 +40,7 @@ export class StoreEntity extends CommonEntity {
   lat: string;
 
   @ApiProperty()
-  @IsEnum(PaymentStatus)
-  @Column({ type: 'enum', enum: PaymentStatus })
-  paymentStatus: PaymentStatus;
+  @IsEnum(PaymentStatusEnum)
+  @Column({ type: 'enum', enum: PaymentStatusEnum })
+  paymentStatus: PaymentStatusEnum;
 }

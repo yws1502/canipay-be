@@ -22,17 +22,15 @@ export class StoresService {
   }
 
   async getStores(take = DEFAULT_TAKE, skip = DEFAULT_SKIP) {
-    console.log(take, skip);
-
     const [stores, totalCount] = await this.storeRepository
       .createQueryBuilder('store')
       .orderBy('store.createdAt')
       .take(take)
-      .skip(skip)
+      .skip(skip - 1)
       .getManyAndCount();
 
     return {
-      stores,
+      data: stores,
       totalCount,
       totalPage: Math.ceil(totalCount / take),
     };

@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ConfigModule } from '@nestjs/config';
 import { StoresModule } from './stores/stores.module';
+import { ProxyModule } from './proxy/proxy.module';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 const typeOrmModuleOptions = {
   useFactory: async (): Promise<TypeOrmModuleOptions> => {
@@ -25,8 +27,19 @@ const typeOrmModuleOptions = {
 };
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forRootAsync(typeOrmModuleOptions), StoresModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync(typeOrmModuleOptions),
+    StoresModule,
+    ProxyModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
