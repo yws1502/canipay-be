@@ -23,8 +23,8 @@ export class StoresController {
   @ApiOperation({
     summary: '매장 목록 조회',
   })
-  @ApiQuery({ name: 'skip', required: false, type: 'number' })
-  @ApiQuery({ name: 'take', required: false, type: 'number' })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiResponse(responseExampleForStore.list)
   getStores(@Query('take') take?: number | typeof NaN, @Query('skip') skip?: number | typeof NaN) {
     return this.storesService.getStores(take, skip);

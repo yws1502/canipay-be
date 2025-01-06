@@ -16,7 +16,7 @@ export class ProxyController {
   })
   @ApiQuery({ name: 'search', required: true, type: 'string' })
   @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
-  @ApiQuery({ name: 'limit', required: false, type: 'number', default: 10 })
+  @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiQuery({
     name: 'radius',
     required: false,
@@ -24,7 +24,7 @@ export class ProxyController {
     description: '검색 반경 1 ~ 33km, 0인 경우 전국',
   })
   @ApiQuery({
-    name: 'sort-by',
+    name: 'sortBy',
     required: false,
     enum: ['A', 'R'],
     default: 'A',
@@ -34,11 +34,11 @@ export class ProxyController {
   searchStoreList(
     @Query('search', new RequiredValidationPipe()) search: string,
     @Query('skip') skip?: number | typeof NaN,
-    @Query('limit') limit?: number | typeof NaN,
+    @Query('take') take?: number | typeof NaN,
     @Query('radius') radius?: number | typeof NaN,
-    @Query('sort-by') sortBy?: SearchTypCd
+    @Query('sortBy') sortBy?: SearchTypCd
   ) {
-    return this.proxyService.searchStoreList(search, skip, limit, radius, sortBy);
+    return this.proxyService.searchStoreList(search, skip, take, radius, sortBy);
   }
 
   @Get('stores/:id')

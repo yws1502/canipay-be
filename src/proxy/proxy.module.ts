@@ -3,6 +3,7 @@ import { ProxyController } from './proxy.controller';
 import { ProxyService } from './proxy.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { StoresModule } from 'src/stores/stores.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         },
       }),
     }),
+    StoresModule,
   ],
   controllers: [ProxyController],
   providers: [ProxyService],

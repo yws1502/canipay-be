@@ -45,7 +45,7 @@ interface GroupSub {
 
 type CoordinateType = 'WGS84GEO' | 'EPSG3857' | 'KATECH';
 
-interface Poi {
+export interface Poi {
   id: string; // POI ID
   pkey: string; // POI 식별자
   navSeq: string; // 입구지점 일련번호

@@ -29,6 +29,7 @@ const proxyStoreResponse = {
   category: 'string',
   lat: 'string',
   lon: 'string',
+  paymentStatus: 'available | unavailable | unregistered',
 };
 
 export const responseExampleForStore = {
