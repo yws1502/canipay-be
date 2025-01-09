@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
+import { ReviewEntity } from 'src/reviews/reviews.entity';
 import { PaymentStatusEnum } from 'src/types/store';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 
 @Index('storeId', ['id'], { unique: true })
 @Entity({
@@ -43,4 +44,8 @@ export class StoreEntity extends CommonEntity {
   @IsEnum(PaymentStatusEnum)
   @Column({ type: 'enum', enum: PaymentStatusEnum })
   paymentStatus: PaymentStatusEnum;
+
+  @ApiProperty()
+  @OneToMany(() => ReviewEntity, (review: ReviewEntity) => review.store, { cascade: true })
+  reviews: ReviewEntity[];
 }

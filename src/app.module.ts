@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { StoresModule } from './stores/stores.module';
 import { ProxyModule } from './proxy/proxy.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { ReviewsModule } from './reviews/reviews.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (): Promise<TypeOrmModuleOptions> => {
@@ -34,6 +35,7 @@ const typeOrmModuleOptions = {
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     StoresModule,
     ProxyModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
