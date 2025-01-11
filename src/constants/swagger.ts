@@ -18,6 +18,10 @@ const storeResponse = {
   lon: 'string',
   lat: 'string',
   paymentStatus: 'available | unavailable',
+  tastyCount: 'number',
+  friendlyCount: 'number',
+  valuableCount: 'number',
+  comfortableCount: 'number',
   createdAt: 'date string',
   updatedAt: 'date string',
 };
@@ -32,6 +36,18 @@ const proxyStoreResponse = {
   paymentStatus: 'available | unavailable | unregistered',
 };
 
+const reviewResponse = {
+  id: 'uuid',
+  isTasty: 'boolean',
+  isFriendly: 'boolean',
+  isValuable: 'boolean',
+  isComfortable: 'boolean',
+  content: 'string | null',
+  isReported: 'boolean',
+  createdAt: 'date string',
+  updatedAt: 'date string',
+};
+
 export const responseExampleForStore = {
   register: responseTemplate(storeResponse),
   list: responseTemplate({
@@ -44,11 +60,24 @@ export const responseExampleForStore = {
   delete: responseTemplate(deleteResponse),
 };
 
-export const ResponseExampleForProxyStore = {
+export const responseExampleForProxyStore = {
   list: responseTemplate({
     data: [proxyStoreResponse],
     totalCount: 'number',
     totalPage: 'number',
   }),
   detail: responseTemplate(proxyStoreResponse),
+};
+
+export const responseExampleForReview = {
+  create: responseTemplate({
+    ...reviewResponse,
+    store: storeResponse,
+  }),
+  list: responseTemplate({
+    data: [reviewResponse],
+    totalCount: 'number',
+    totalPage: 'number',
+  }),
+  report: responseTemplate(reviewResponse),
 };

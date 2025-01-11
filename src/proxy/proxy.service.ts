@@ -32,7 +32,7 @@ export class ProxyService {
     const params: RequestSearchPoiInfo = {
       version: '1',
       searchKeyword: search,
-      page: skip,
+      page: skip + 1,
       count: take,
       radius,
       searchtypCd: sortBy,

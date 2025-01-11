@@ -2,13 +2,18 @@ import { Controller, Get, Query, Post, Body, Param, Patch, Delete } from '@nestj
 import { ApiQuery, ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { StoresService } from './stores.service';
 import { StoreFormDTO } from './dto/store-form.dto';
-import { responseExampleForStore } from 'src/constants/swagger';
+import { responseExampleForReview, responseExampleForStore } from 'src/constants/swagger';
 import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
+import { ReviewsService } from 'src/reviews/reviews.service';
+import { ReviewFormDTO } from 'src/reviews/dto/review-form.dto';
 
 @ApiTags('Store')
 @Controller('stores')
 export class StoresController {
-  constructor(private readonly storesService: StoresService) {}
+  constructor(
+    private readonly storesService: StoresService,
+    private readonly reviewsService: ReviewsService
+  ) {}
 
   @Post()
   @ApiOperation({
@@ -23,7 +28,7 @@ export class StoresController {
   @ApiOperation({
     summary: '매장 목록 조회',
   })
-  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiResponse(responseExampleForStore.list)
   getStores(@Query('take') take?: number | typeof NaN, @Query('skip') skip?: number | typeof NaN) {
@@ -59,5 +64,31 @@ export class StoresController {
   @ApiResponse(responseExampleForStore.delete)
   deleteStore(@Param('id') id: string) {
     return this.storesService.deleteStore(id);
+  }
+
+  @Post('/:storeId/reviews')
+  @ApiOperation({
+    summary: '매장 리뷰 생성',
+  })
+  @ApiParam({ name: 'storeId', required: true, type: 'string' })
+  @ApiResponse(responseExampleForReview.create)
+  createReview(@Param('storeId') storeId: string, @Body() reviewForm: ReviewFormDTO) {
+    return this.reviewsService.create(storeId, reviewForm);
+  }
+
+  @Get('/:storeId/reviews')
+  @ApiOperation({
+    summary: '매장 별 리뷰 목록 조회',
+  })
+  @ApiParam({ name: 'storeId', required: true, type: 'string' })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
+  @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
+  @ApiResponse(responseExampleForReview.list)
+  getReviewsByStore(
+    @Param('storeId') storeId: string,
+    @Query('take') take?: number | typeof NaN,
+    @Query('skip') skip?: number | typeof NaN
+  ) {
+    return this.reviewsService.getReviewsByStore(storeId, take, skip);
   }
 }
