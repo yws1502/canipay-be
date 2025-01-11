@@ -43,6 +43,7 @@ const reviewResponse = {
   isValuable: 'boolean',
   isComfortable: 'boolean',
   content: 'string | null',
+  isReported: 'boolean',
   createdAt: 'date string',
   updatedAt: 'date string',
 };
@@ -78,4 +79,5 @@ export const responseExampleForReview = {
     totalCount: 'number',
     totalPage: 'number',
   }),
+  report: responseTemplate(reviewResponse),
 };

@@ -61,4 +61,15 @@ export class ReviewsService {
       totalPage: Math.ceil(totalCount / take),
     };
   }
+
+  async report(id: string) {
+    const review = await this.reviewRepository.findOneBy({ id });
+    if (!review) throw new NotFoundException(EXCEPTION.NOT_FOUND_REVIEW);
+
+    review.isReported = true;
+    await this.reviewRepository.update(id, review);
+
+    const reportedReview = await this.reviewRepository.findOneBy({ id });
+    return reportedReview;
+  }
 }

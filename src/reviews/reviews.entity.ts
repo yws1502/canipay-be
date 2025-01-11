@@ -64,6 +64,9 @@ export class ReviewEntity {
   })
   updatedAt: Date;
 
+  @Column({ type: 'boolean', default: false })
+  isReported: boolean;
+
   @Exclude()
   @DeleteDateColumn({ type: 'timestamptz' })
   deletedAt?: Date | null;
