@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsBoolean, IsString, IsUUID } from 'class-validator';
+import { IsUUID } from 'class-validator';
 import { StoreEntity } from 'src/stores/stores.entity';
 import {
   Column,
@@ -25,29 +25,24 @@ export class ReviewEntity {
   id: string;
 
   @ApiProperty()
-  @IsBoolean()
   @Column({ type: 'boolean', default: false })
   isTasty: boolean;
 
   @ApiProperty()
-  @IsBoolean()
   @Column({ type: 'boolean', default: false })
   isFriendly: boolean;
 
   @ApiProperty()
-  @IsBoolean()
   @Column({ type: 'boolean', default: false })
   isValuable: boolean;
 
   @ApiProperty()
-  @IsBoolean()
   @Column({ type: 'boolean', default: false })
   isComfortable: boolean;
 
   @ApiProperty()
-  @IsString()
-  @Column({ type: 'varchar', length: 100 })
-  content: string;
+  @Column({ type: 'varchar', nullable: true })
+  content: string | null;
 
   @ApiProperty()
   @ManyToOne(() => StoreEntity, (store: StoreEntity) => store.reviews, {
