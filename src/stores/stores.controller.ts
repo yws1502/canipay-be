@@ -75,4 +75,20 @@ export class StoresController {
   createReview(@Param('storeId') storeId: string, @Body() reviewForm: ReviewFormDTO) {
     return this.reviewsService.create(storeId, reviewForm);
   }
+
+  @Get('/:storeId/reviews')
+  @ApiOperation({
+    summary: '매장 별 리뷰 목록 조회',
+  })
+  @ApiParam({ name: 'storeId', required: true, type: 'string' })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
+  @ApiResponse(responseExampleForReview.list)
+  getReviews(
+    @Param('storeId') storeId: string,
+    @Query('take') take?: number | typeof NaN,
+    @Query('skip') skip?: number | typeof NaN
+  ) {
+    return this.reviewsService.getReviews(storeId, take, skip);
+  }
 }

@@ -5,6 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { ReviewFormDTO } from './dto/review-form.dto';
 import { StoreEntity } from 'src/stores/stores.entity';
 import { EXCEPTION } from 'src/constants/message';
+import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
 
 @Injectable()
 export class ReviewsService {
@@ -43,5 +44,21 @@ export class ReviewsService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async getReviews(storeId: string, take = DEFAULT_TAKE, skip = DEFAULT_SKIP) {
+    const [reviews, totalCount] = await this.reviewRepository
+      .createQueryBuilder('review')
+      .leftJoin('review.store', 'store')
+      .where('store.id = :storeId', { storeId })
+      .take(take)
+      .skip(skip - 1)
+      .getManyAndCount();
+
+    return {
+      data: reviews,
+      totalCount,
+      totalPage: Math.ceil(totalCount / take),
+    };
   }
 }

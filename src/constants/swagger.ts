@@ -73,4 +73,9 @@ export const responseExampleForReview = {
     ...reviewResponse,
     store: storeResponse,
   }),
+  list: responseTemplate({
+    data: [reviewResponse],
+    totalCount: 'number',
+    totalPage: 'number',
+  }),
 };
