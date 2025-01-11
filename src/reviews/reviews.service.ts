@@ -46,7 +46,7 @@ export class ReviewsService {
     }
   }
 
-  async getReviews(storeId: string, take = DEFAULT_TAKE, skip = DEFAULT_SKIP) {
+  async getReviewsByStore(storeId: string, take = DEFAULT_TAKE, skip = DEFAULT_SKIP) {
     const [reviews, totalCount] = await this.reviewRepository
       .createQueryBuilder('review')
       .leftJoin('review.store', 'store')
@@ -71,5 +71,22 @@ export class ReviewsService {
 
     const reportedReview = await this.reviewRepository.findOneBy({ id });
     return reportedReview;
+  }
+
+  async list(take = DEFAULT_TAKE, skip = DEFAULT_SKIP, isReported = false) {
+    const queryBuilder = this.reviewRepository.createQueryBuilder('review');
+
+    if (isReported) queryBuilder.where('review.isReported = :isReported', { isReported });
+
+    const [reviews, totalCount] = await queryBuilder
+      .take(take)
+      .skip(skip - 1)
+      .getManyAndCount();
+
+    return {
+      data: reviews,
+      totalCount,
+      totalPage: Math.ceil(totalCount / take),
+    };
   }
 }

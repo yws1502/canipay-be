@@ -84,11 +84,11 @@ export class StoresController {
   @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiResponse(responseExampleForReview.list)
-  getReviews(
+  getReviewsByStore(
     @Param('storeId') storeId: string,
     @Query('take') take?: number | typeof NaN,
     @Query('skip') skip?: number | typeof NaN
   ) {
-    return this.reviewsService.getReviews(storeId, take, skip);
+    return this.reviewsService.getReviewsByStore(storeId, take, skip);
   }
 }
