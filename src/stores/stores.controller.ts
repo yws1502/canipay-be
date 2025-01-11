@@ -28,7 +28,7 @@ export class StoresController {
   @ApiOperation({
     summary: '매장 목록 조회',
   })
-  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiResponse(responseExampleForStore.list)
   getStores(@Query('take') take?: number | typeof NaN, @Query('skip') skip?: number | typeof NaN) {
@@ -81,7 +81,7 @@ export class StoresController {
     summary: '매장 별 리뷰 목록 조회',
   })
   @ApiParam({ name: 'storeId', required: true, type: 'string' })
-  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiResponse(responseExampleForReview.list)
   getReviewsByStore(

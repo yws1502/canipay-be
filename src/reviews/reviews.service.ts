@@ -52,7 +52,7 @@ export class ReviewsService {
       .leftJoin('review.store', 'store')
       .where('store.id = :storeId', { storeId })
       .take(take)
-      .skip(skip - 1)
+      .skip(skip)
       .getManyAndCount();
 
     return {
@@ -78,10 +78,7 @@ export class ReviewsService {
 
     if (isReported) queryBuilder.where('review.isReported = :isReported', { isReported });
 
-    const [reviews, totalCount] = await queryBuilder
-      .take(take)
-      .skip(skip - 1)
-      .getManyAndCount();
+    const [reviews, totalCount] = await queryBuilder.take(take).skip(skip).getManyAndCount();
 
     return {
       data: reviews,

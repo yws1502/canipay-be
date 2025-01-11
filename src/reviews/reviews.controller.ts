@@ -22,7 +22,7 @@ export class ReviewsController {
   @ApiOperation({
     summary: '리뷰 목록 조회',
   })
-  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiQuery({ name: 'isReported', required: false, type: 'boolean', default: false })
   @ApiResponse(responseExampleForReview.list)

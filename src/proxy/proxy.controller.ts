@@ -15,7 +15,7 @@ export class ProxyController {
     summary: '장소 통합 검색 (T Map)',
   })
   @ApiQuery({ name: 'search', required: true, type: 'string' })
-  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 1 })
+  @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiQuery({
     name: 'radius',
