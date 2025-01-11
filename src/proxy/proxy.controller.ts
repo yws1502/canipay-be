@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProxyService } from './proxy.service';
 import { SearchTypCd } from 'src/types/tmap';
-import { ResponseExampleForProxyStore } from 'src/constants/swagger';
+import { responseExampleForProxyStore } from 'src/constants/swagger';
 import { RequiredValidationPipe } from 'src/common/pipes/required-validation.pipe';
 
 @ApiTags('Proxy')
@@ -30,7 +30,7 @@ export class ProxyController {
     default: 'A',
     description: '결과 정렬 순서 A = 정확도순, R = 거리순',
   })
-  @ApiResponse(ResponseExampleForProxyStore.list)
+  @ApiResponse(responseExampleForProxyStore.list)
   searchStoreList(
     @Query('search', new RequiredValidationPipe()) search: string,
     @Query('skip') skip?: number | typeof NaN,
@@ -46,7 +46,7 @@ export class ProxyController {
     summary: '장소 상세 정보 조회 (T Map)',
   })
   @ApiParam({ name: 'id', required: true, type: 'string' })
-  @ApiResponse(ResponseExampleForProxyStore.detail)
+  @ApiResponse(responseExampleForProxyStore.detail)
   getStore(@Param('id') id: string) {
     return this.proxyService.getStore(id);
   }

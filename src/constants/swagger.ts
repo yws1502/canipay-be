@@ -59,7 +59,7 @@ export const responseExampleForStore = {
   delete: responseTemplate(deleteResponse),
 };
 
-export const ResponseExampleForProxyStore = {
+export const responseExampleForProxyStore = {
   list: responseTemplate({
     data: [proxyStoreResponse],
     totalCount: 'number',
