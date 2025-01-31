@@ -42,7 +42,7 @@ const reviewResponse = {
   isFriendly: 'boolean',
   isValuable: 'boolean',
   isComfortable: 'boolean',
-  content: 'string | null',
+  content: 'string',
   isReported: 'boolean',
   createdAt: 'date string',
   updatedAt: 'date string',
