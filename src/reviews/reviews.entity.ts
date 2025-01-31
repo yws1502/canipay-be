@@ -41,8 +41,8 @@ export class ReviewEntity {
   isComfortable: boolean;
 
   @ApiProperty()
-  @Column({ type: 'varchar', nullable: true })
-  content: string | null;
+  @Column({ type: 'varchar', default: '' })
+  content: string;
 
   @ApiProperty()
   @ManyToOne(() => StoreEntity, (store: StoreEntity) => store.reviews, {
