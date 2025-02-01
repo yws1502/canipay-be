@@ -20,6 +20,8 @@ export class ProxyService {
 
   async searchStoreList(
     search: string,
+    lon: number,
+    lat: number,
     skip = DEFAULT_SKIP,
     take = DEFAULT_TAKE,
     radius?: number,
@@ -32,7 +34,9 @@ export class ProxyService {
     const params: RequestSearchPoiInfo = {
       version: '1',
       searchKeyword: search,
-      page: skip + 1,
+      centerLon: lon,
+      centerLat: lat,
+      page: +skip + 1,
       count: take,
       radius,
       searchtypCd: sortBy,
