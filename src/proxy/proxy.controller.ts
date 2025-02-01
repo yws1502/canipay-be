@@ -15,6 +15,8 @@ export class ProxyController {
     summary: '장소 통합 검색 (T Map)',
   })
   @ApiQuery({ name: 'search', required: true, type: 'string' })
+  @ApiQuery({ name: 'lon', required: true, type: 'number' })
+  @ApiQuery({ name: 'lat', required: true, type: 'number' })
   @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
   @ApiQuery({
@@ -33,12 +35,14 @@ export class ProxyController {
   @ApiResponse(responseExampleForProxyStore.list)
   searchStoreList(
     @Query('search', new RequiredValidationPipe()) search: string,
+    @Query('lon') lon: number,
+    @Query('lat') lat: number,
     @Query('skip') skip?: number | typeof NaN,
     @Query('take') take?: number | typeof NaN,
     @Query('radius') radius?: number | typeof NaN,
     @Query('sortBy') sortBy?: SearchTypCd
   ) {
-    return this.proxyService.searchStoreList(search, skip, take, radius, sortBy);
+    return this.proxyService.searchStoreList(search, lon, lat, skip, take, radius, sortBy);
   }
 
   @Get('stores/:id')
