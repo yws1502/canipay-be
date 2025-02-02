@@ -52,6 +52,7 @@ export class ReviewsService {
       .leftJoin('review.store', 'store')
       .where('store.id = :storeId', { storeId })
       .andWhere('review.isReported = false')
+      .orderBy('review.createdAt', 'DESC')
       .take(take)
       .skip(skip)
       .getManyAndCount();
@@ -80,9 +81,9 @@ export class ReviewsService {
     if (isReported) queryBuilder.where('review.isReported = :isReported', { isReported });
 
     const [reviews, totalCount] = await queryBuilder
+      .orderBy('review.createdAt', 'DESC')
       .take(take)
       .skip(skip)
-      .orderBy('review.createdAt', 'DESC')
       .getManyAndCount();
 
     return {
