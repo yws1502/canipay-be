@@ -34,6 +34,8 @@ export class ReviewsService {
       if (reviewForm.isValuable) store.valuableCount += 1;
       if (reviewForm.isComfortable) store.comfortableCount += 1;
 
+      store.reviewCount += 1;
+
       await queryRunner.manager.save(store);
 
       await queryRunner.commitTransaction();

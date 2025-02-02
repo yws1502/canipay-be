@@ -52,6 +52,11 @@ export class StoreEntity extends CommonEntity {
   @ApiProperty()
   @IsNumber()
   @Column({ type: 'int', default: 0 })
+  reviewCount: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Column({ type: 'int', default: 0 })
   tastyCount: number;
 
   @ApiProperty()
