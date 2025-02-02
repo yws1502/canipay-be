@@ -59,7 +59,7 @@ export class ProxyService {
     return {
       data: storeList,
       totalCount: searchPoiInfo.totalCount,
-      totalPage: Math.ceil(Number(searchPoiInfo.totalCount) / Number(searchPoiInfo.count)),
+      totalPage: Math.ceil(Number(searchPoiInfo.totalCount) / take),
     };
   }
 
