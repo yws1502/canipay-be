@@ -77,6 +77,32 @@ export class ReviewsService {
     return reportedReview;
   }
 
+  async delete(id: string) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const review = await queryRunner.manager.findOne(ReviewEntity, {
+        where: { id },
+        relations: ['store'],
+      });
+      const { store } = review;
+
+      await queryRunner.manager.softDelete(ReviewEntity, id);
+      store.reviewCount -= 1;
+      await queryRunner.manager.save(store);
+
+      await queryRunner.commitTransaction();
+      return { message: '삭제되었습니다.' };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
   async list(take = DEFAULT_TAKE, skip = DEFAULT_SKIP, isReported = false) {
     const queryBuilder = this.reviewRepository.createQueryBuilder('review');
 

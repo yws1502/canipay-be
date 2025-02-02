@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ReviewsService } from './reviews.service';
 import { responseExampleForReview } from 'src/constants/swagger';
@@ -20,7 +20,7 @@ export class ReviewsController {
 
   @Get()
   @ApiOperation({
-    summary: '리뷰 목록 조회',
+    summary: '리뷰 목록 조회 (관리자용)',
   })
   @ApiQuery({ name: 'skip', required: false, type: 'number', default: 0 })
   @ApiQuery({ name: 'take', required: false, type: 'number', default: 10 })
@@ -32,5 +32,15 @@ export class ReviewsController {
     @Query('isReported') isReported?: boolean
   ) {
     return this.reviewsService.list(take, skip, isReported);
+  }
+
+  @Delete(':id')
+  @ApiOperation({
+    summary: '리뷰 삭제 (관리자용)',
+  })
+  @ApiParam({ name: 'id', required: true, type: 'string' })
+  @ApiResponse(responseExampleForReview.delete)
+  delete(@Param('id') id: string) {
+    return this.reviewsService.delete(id);
   }
 }

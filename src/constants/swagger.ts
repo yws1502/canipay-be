@@ -82,4 +82,5 @@ export const responseExampleForReview = {
     totalPage: 'number',
   }),
   report: responseTemplate(reviewResponse),
+  delete: responseTemplate(deleteResponse),
 };
