@@ -26,7 +26,7 @@ export class StoresService {
       .createQueryBuilder('store')
       .orderBy('store.createdAt', 'DESC')
       .take(take)
-      .skip(skip)
+      .skip(skip * take)
       .getManyAndCount();
 
     return {

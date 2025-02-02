@@ -56,7 +56,7 @@ export class ReviewsService {
       .andWhere('review.isReported = false')
       .orderBy('review.createdAt', 'DESC')
       .take(take)
-      .skip(skip)
+      .skip(skip * take)
       .getManyAndCount();
 
     return {
@@ -111,7 +111,7 @@ export class ReviewsService {
     const [reviews, totalCount] = await queryBuilder
       .orderBy('review.createdAt', 'DESC')
       .take(take)
-      .skip(skip)
+      .skip(skip * take)
       .getManyAndCount();
 
     return {
