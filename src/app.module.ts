@@ -21,7 +21,7 @@ const typeOrmModuleOptions = {
       database: process.env.DB_NAME,
       synchronize: true, // set 'false' in production
       autoLoadEntities: true,
-      logging: true, // set 'false' in production
+      logging: process.env.NOTE_ENV !== 'production',
       keepConnectionAlive: true,
     };
   },
