@@ -18,6 +18,7 @@ const storeResponse = {
   lon: 'string',
   lat: 'string',
   paymentStatus: 'available | unavailable',
+  reviewCount: 'number',
   tastyCount: 'number',
   friendlyCount: 'number',
   valuableCount: 'number',
@@ -34,6 +35,7 @@ const proxyStoreResponse = {
   lat: 'string',
   lon: 'string',
   paymentStatus: 'available | unavailable | unregistered',
+  reviewCount: 'number',
 };
 
 const reviewResponse = {
@@ -80,4 +82,5 @@ export const responseExampleForReview = {
     totalPage: 'number',
   }),
   report: responseTemplate(reviewResponse),
+  delete: responseTemplate(deleteResponse),
 };

@@ -13,4 +13,5 @@ export interface Store {
   lat: string;
   lon: string;
   paymentStatus: PaymentStatus;
+  reviewCount: number;
 }

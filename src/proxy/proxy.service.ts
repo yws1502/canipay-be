@@ -59,7 +59,7 @@ export class ProxyService {
     return {
       data: storeList,
       totalCount: searchPoiInfo.totalCount,
-      totalPage: Math.ceil(Number(searchPoiInfo.totalCount) / Number(searchPoiInfo.count)),
+      totalPage: Math.ceil(Number(searchPoiInfo.totalCount) / take),
     };
   }
 
@@ -76,6 +76,7 @@ export class ProxyService {
           lat: item.newAddressList.newAddress[0].centerLat,
           lon: item.newAddressList.newAddress[0].centerLon,
           paymentStatus: existsStore ? existsStore.paymentStatus : 'unregistered',
+          reviewCount: existsStore ? existsStore.reviewCount : 0,
         };
       })
     );
@@ -118,6 +119,7 @@ export class ProxyService {
       lat: poiDetailInfo.lat,
       lon: poiDetailInfo.lon,
       paymentStatus: 'unregistered',
+      reviewCount: 0,
     };
 
     return store;
