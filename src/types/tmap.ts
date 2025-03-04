@@ -113,16 +113,18 @@ export interface RequestSearchPoiInfo {
   poiGroupYn?: 'Y' | 'N'; // default N, 상세 정보 링크 참고
 }
 
-export interface ResponseSearchPoiInfo {
-  searchPoiInfo: {
-    totalCount: string;
-    count: string;
-    page: string;
-    pois: {
-      poi: Poi[];
+export type ResponseSearchPoiInfo =
+  | ''
+  | {
+      searchPoiInfo: {
+        totalCount: string;
+        count: string;
+        page: string;
+        pois: {
+          poi: Poi[];
+        };
+      };
     };
-  };
-}
 
 export interface RequestPoiInfo {
   version: '1';
