@@ -52,8 +52,15 @@ export class ProxyService {
       )
     );
 
-    const { searchPoiInfo } = response.data;
+    if (response.data === '') {
+      return {
+        data: [],
+        totalCount: 0,
+        totalPage: 0,
+      };
+    }
 
+    const { searchPoiInfo } = response.data;
     const storeList = await this.generateStoreList(searchPoiInfo.pois.poi);
 
     return {
