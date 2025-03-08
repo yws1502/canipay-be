@@ -24,7 +24,11 @@ export class StoresService {
   async getStores(take = DEFAULT_TAKE, skip = DEFAULT_SKIP) {
     const [stores, totalCount] = await this.storeRepository
       .createQueryBuilder('store')
-      .orderBy('store.createdAt', 'DESC')
+      .orderBy({
+        'store.reviewCount': 'DESC',
+        'store.paymentStatus': 'ASC',
+        'store.id': 'ASC',
+      })
       .take(take)
       .skip(skip * take)
       .getManyAndCount();
