@@ -67,14 +67,21 @@ export class ReviewsService {
   }
 
   async report(id: string) {
-    const review = await this.reviewRepository.findOneBy({ id });
-    if (!review) throw new NotFoundException(EXCEPTION.NOT_FOUND_REVIEW);
+    const review = await this.findOneById(id);
 
     review.isReported = true;
     await this.reviewRepository.update(id, review);
 
-    const reportedReview = await this.reviewRepository.findOneBy({ id });
-    return reportedReview;
+    return review;
+  }
+
+  async unreport(id: string) {
+    const review = await this.findOneById(id);
+
+    review.isReported = false;
+    await this.reviewRepository.update(id, review);
+
+    return review;
   }
 
   async delete(id: string) {
@@ -101,6 +108,13 @@ export class ReviewsService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async findOneById(id: string) {
+    const review = await this.reviewRepository.findOneBy({ id });
+    if (!review) throw new NotFoundException(EXCEPTION.NOT_FOUND_REVIEW);
+
+    return review;
   }
 
   async list(take = DEFAULT_TAKE, skip = DEFAULT_SKIP, isReported = false) {
