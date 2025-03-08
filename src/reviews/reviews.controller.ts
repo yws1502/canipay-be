@@ -18,6 +18,16 @@ export class ReviewsController {
     return this.reviewsService.report(id);
   }
 
+  @Patch(':id/unreport')
+  @ApiOperation({
+    summary: '신고된 리뷰 원복 (관리자용)',
+  })
+  @ApiParam({ name: 'id', required: true, type: 'string' })
+  @ApiResponse(responseExampleForReview.report)
+  unreport(@Param('id') id: string) {
+    return this.reviewsService.unreport(id);
+  }
+
   @Get()
   @ApiOperation({
     summary: '리뷰 목록 조회 (관리자용)',
