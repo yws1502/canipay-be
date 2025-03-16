@@ -1,12 +1,12 @@
 import { Controller, Get, Query, Post, Body, Param, Patch, Delete } from '@nestjs/common';
-import { ApiQuery, ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
+import { ApiQuery, ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { StoresService } from './stores.service';
 import { StoreFormDTO } from './dto/store-form.dto';
 import { responseExampleForReview, responseExampleForStore } from 'src/constants/swagger';
 import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
 import { ReviewsService } from 'src/reviews/reviews.service';
 import { ReviewFormDTO } from 'src/reviews/dto/review-form.dto';
-import { LikeAction } from './stores.type';
+import { StoreLikeDTO } from './dto/store-like.dto';
 
 @ApiTags('Store')
 @Controller('stores')
@@ -71,13 +71,8 @@ export class StoresController {
   @ApiOperation({ summary: '매장 좋아요' })
   @ApiParam({ name: 'id', required: true, type: 'string' })
   @ApiResponse(responseExampleForStore.like)
-  @ApiBody({
-    schema: {
-      example: { action: 'like | unlike' },
-    },
-  })
-  likeStore(@Param('id') id: string, @Body() { action }: { action: LikeAction }) {
-    return this.storesService.like(id, action);
+  likeStore(@Param('id') id: string, @Body() storeLikeDto: StoreLikeDTO) {
+    return this.storesService.like(id, storeLikeDto);
   }
 
   @Post('/:storeId/reviews')

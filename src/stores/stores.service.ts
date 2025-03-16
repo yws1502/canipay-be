@@ -6,7 +6,7 @@ import { StoreFormDTO } from './dto/store-form.dto';
 import { StoreEntity } from './stores.entity';
 import { EXCEPTION } from 'src/constants/message';
 import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
-import { LikeAction } from './stores.type';
+import { LikeAction, StoreLikeDTO } from './dto/store-like.dto';
 
 @Injectable()
 export class StoresService {
@@ -65,10 +65,10 @@ export class StoresService {
     };
   }
 
-  async like(id: string, action: LikeAction) {
+  async like(id: string, storeLikeDto: StoreLikeDTO) {
     const store = await this.getStore(id);
 
-    if (action === 'like') store.likeCount += 1;
+    if (storeLikeDto.action === LikeAction.LIKE) store.likeCount += 1;
     else store.likeCount -= 1;
 
     await this.storeRepository.update(id, store);
