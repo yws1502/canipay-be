@@ -73,4 +73,9 @@ export class StoreEntity extends CommonEntity {
   @IsNumber()
   @Column({ type: 'int', default: 0 })
   comfortableCount: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Column({ type: 'int', default: 0 })
+  likeCount: number;
 }

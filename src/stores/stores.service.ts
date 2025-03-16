@@ -6,6 +6,7 @@ import { StoreFormDTO } from './dto/store-form.dto';
 import { StoreEntity } from './stores.entity';
 import { EXCEPTION } from 'src/constants/message';
 import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
+import { LikeAction, StoreLikeDTO } from './dto/store-like.dto';
 
 @Injectable()
 export class StoresService {
@@ -25,6 +26,7 @@ export class StoresService {
     const [stores, totalCount] = await this.storeRepository
       .createQueryBuilder('store')
       .orderBy({
+        'store.likeCount': 'DESC',
         'store.reviewCount': 'DESC',
         'store.paymentStatus': 'ASC',
         'store.id': 'ASC',
@@ -61,5 +63,16 @@ export class StoresService {
     return {
       message: '삭제되었습니다.',
     };
+  }
+
+  async like(id: string, storeLikeDto: StoreLikeDTO) {
+    const store = await this.getStore(id);
+
+    if (storeLikeDto.action === LikeAction.LIKE) store.likeCount += 1;
+    else store.likeCount -= 1;
+
+    await this.storeRepository.update(id, store);
+
+    return store;
   }
 }

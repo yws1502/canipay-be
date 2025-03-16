@@ -23,6 +23,7 @@ const storeResponse = {
   friendlyCount: 'number',
   valuableCount: 'number',
   comfortableCount: 'number',
+  likeCount: 'number',
   createdAt: 'date string',
   updatedAt: 'date string',
 };
@@ -59,6 +60,7 @@ export const responseExampleForStore = {
   }),
   detail: responseTemplate(storeResponse),
   changePaymentStatus: responseTemplate(storeResponse),
+  like: responseTemplate(storeResponse),
   delete: responseTemplate(deleteResponse),
 };
 
