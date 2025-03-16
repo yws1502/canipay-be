@@ -26,6 +26,7 @@ export class StoresService {
     const [stores, totalCount] = await this.storeRepository
       .createQueryBuilder('store')
       .orderBy({
+        'store.likeCount': 'DESC',
         'store.reviewCount': 'DESC',
         'store.paymentStatus': 'ASC',
         'store.id': 'ASC',
