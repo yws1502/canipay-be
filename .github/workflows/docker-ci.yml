@@ -1,8 +1,8 @@
-name: Docker Image CI
+name: Docker CI Pipeline
 
 on:
-  push:
-    branches: ['main']
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -13,24 +13,21 @@ jobs:
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Login Dockerhub
+      - name: Get latest release tag
+        id: get_release
+        run: echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Build the docker image
+        run: docker build . --file Dockerfile --tag $DOCKER_HUB_REPO/canipay-be:latest
+
+      - name: Login docker hub
         run: echo "$DOCKER_HUB_TOKEN" | docker login --username $DOCKER_HUB_REPO --password-stdin
-
-      - name: auto increment tag
-        id: tag
-        uses: sophiware/actions-auto-increment-tag@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build the Docker image
-        run:
-          docker build . --file Dockerfile --tag $DOCKER_HUB_REPO/canipay-be:${{
-          steps.tag.outputs.tag }}
 
       - name: Push to docker hub repository
         run: |
-          docker push $DOCKER_HUB_REPO/canipay-be:${{ steps.tag.outputs.tag }}
-          docker tag $DOCKER_HUB_REPO/canipay-be:${{ steps.tag.outputs.tag }} $DOCKER_HUB_REPO/canipay-be:latest
           docker push $DOCKER_HUB_REPO/canipay-be:latest
+          docker tag $DOCKER_HUB_REPO/canipay-be:latest $DOCKER_HUB_REPO/canipay-be:${{ env.TAG }}
+          docker push $DOCKER_HUB_REPO/canipay-be:${{ env.TAG }}

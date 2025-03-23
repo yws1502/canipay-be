@@ -6,6 +6,7 @@ export class StoreFormDTO extends OmitType(StoreEntity, [
   'friendlyCount',
   'valuableCount',
   'comfortableCount',
+  'likeCount',
   'createdAt',
   'updatedAt',
   'deletedAt',

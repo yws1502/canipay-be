@@ -6,6 +6,7 @@ import { responseExampleForReview, responseExampleForStore } from 'src/constants
 import { PaymentStatusFormDTO } from './dto/payment-status-form.dto';
 import { ReviewsService } from 'src/reviews/reviews.service';
 import { ReviewFormDTO } from 'src/reviews/dto/review-form.dto';
+import { StoreLikeDTO } from './dto/store-like.dto';
 
 @ApiTags('Store')
 @Controller('stores')
@@ -64,6 +65,14 @@ export class StoresController {
   @ApiResponse(responseExampleForStore.delete)
   deleteStore(@Param('id') id: string) {
     return this.storesService.deleteStore(id);
+  }
+
+  @Patch('/:id/like')
+  @ApiOperation({ summary: '매장 좋아요' })
+  @ApiParam({ name: 'id', required: true, type: 'string' })
+  @ApiResponse(responseExampleForStore.like)
+  likeStore(@Param('id') id: string, @Body() storeLikeDto: StoreLikeDTO) {
+    return this.storesService.like(id, storeLikeDto);
   }
 
   @Post('/:storeId/reviews')
