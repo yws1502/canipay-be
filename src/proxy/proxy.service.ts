@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { DEFAULT_SKIP, DEFAULT_TAKE } from 'src/constants/page';
+import { StoreEntity } from 'src/stores/stores.entity';
 import { StoresService } from 'src/stores/stores.service';
 import { Store } from 'src/types/store';
 import { Poi, RequestSearchPoiInfo, ResponsePoiInfo, ResponseSearchPoiInfo } from 'src/types/tmap';
@@ -73,7 +74,9 @@ export class ProxyService {
   private async generateStoreList(poi: Poi[]) {
     const storeList = await Promise.all(
       poi.map<Promise<Store>>(async (item) => {
-        const existsStore = await this.storesService.getStore(item.id).catch(() => null);
+        const existsStore: StoreEntity | null = await this.storesService
+          .getStore(item.id)
+          .catch(() => null);
 
         return {
           id: item.id,
@@ -84,6 +87,7 @@ export class ProxyService {
           lon: item.newAddressList.newAddress[0].centerLon,
           paymentStatus: existsStore ? existsStore.paymentStatus : 'unregistered',
           reviewCount: existsStore ? existsStore.reviewCount : 0,
+          likeCount: existsStore ? existsStore.likeCount : 0,
         };
       })
     );
@@ -127,6 +131,7 @@ export class ProxyService {
       lon: poiDetailInfo.lon,
       paymentStatus: 'unregistered',
       reviewCount: 0,
+      likeCount: 0,
     };
 
     return store;
