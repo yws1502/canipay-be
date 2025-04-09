@@ -14,4 +14,5 @@ export interface Store {
   lon: string;
   paymentStatus: PaymentStatus;
   reviewCount: number;
+  likeCount: number;
 }
