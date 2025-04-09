@@ -14,4 +14,4 @@ WORKDIR /app
 
 COPY --from=builder /app ./
 
-ENTRYPOINT ["npm", "run", "start:prod"]
+ENTRYPOINT ["yarn", "start:prod"]
